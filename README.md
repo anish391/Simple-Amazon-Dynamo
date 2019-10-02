@@ -6,15 +6,15 @@ The app provides linearizability as well as availability in case of failure of n
 
 ## Amazon Dynamo Implementation
 
-1. Membership: <br>
+<b>1. Membership:</b> <br>
 Each node(AVD) is aware of the other nodes present in the network. A node is uniquely identified using the AVD emulator ID. We use the emulator IDs to compute the hash value of the node. The hash space can be thought of as a virtual ring-like structure where each node has its own partition of the hash space. In accordance with the workings of the Amazon Dynamo, each node is aware of the presence/absence of the nodes in the ring structure.
 
-2. Request Routing: <br> 
+<b>2. Request Routing:</b> <br> 
 Each node can correctly determine the correct node partition in the hash space to which the incoming request belongs to and forward the request accordingly.
 
-3. Quorum Replication: <br> 
+<b>3. Quorum Replication:</b> <br> 
 With every successful insert completed at a given node, the node replicates the given key-value at its two subsequent node(successor nodes) in the hash ring.
 
-4. Failure Handling: <br>
+<b>4. Failure Handling:</b> <br>
 Incase of node failure, the node with the incoming request holds on to the message until the failed node comes back. Meanwhile, the node attempts to replicate the message at the correct node's successors. In case the successor nodes have failed as well, the node holds on to the failed messages for the successor nodes as well.
 
